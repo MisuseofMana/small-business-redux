@@ -1,6 +1,15 @@
 import { combineReducers } from 'redux'
 
-const user = (state = null) => state
+const user = (state = [], action) => {
+    switch(action.type) {
+        case 'SET_USER':
+            let user = [ ...state ]
+            user.username = action.value
+            return user
+        default:
+            return state
+    }
+}
 
 const cars = (state = [], action) => {
     switch(action.type) {
