@@ -1,19 +1,34 @@
 import React from 'react'
-import { Switch, Route } from 'react-router'
-import Home from './containers/Home'
-import About from './components/About'
-import Car from './containers/Car'
-import Dashboard from './containers/Dashboard'
-import Import from './containers/Import'
+import { Switch, Route, Redirect } from 'react-router'
+import cookie from 'cookie'
+import Listing from './containers/Listing'
+import Listings from './containers/Listings'
+import Login from './components/Login'
+import AddListing from './components/AddListing'
+
+const checkAuth = () => {
+    const cookies = cookie.parse(document.cookie)
+    return cookies["loggedIn"] ? true : false
+}
+
+const ProtectedRoute = ({component: Component, ...rest}) => {
+    return (
+        <Route
+        {...rest}
+        render={(props) => checkAuth()
+            ? <Component {...props} />
+            : <Redirect to="/login" />}
+        />
+    )
+}
 
 const Router = () => {
     return (
         <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route path="/car/:id" component={Car} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/import" component={Import} />
+            <Route exact path="/" component={Listings} />
+            <Route path="/listing/:id" component={Listing}/>
+            <Route path="/login" component={Login} />
+            <ProtectedRoute path="/addListing" component={AddListing} />
         </Switch>
     );
 };
