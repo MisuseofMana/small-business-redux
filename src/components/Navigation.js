@@ -1,10 +1,12 @@
 import React from 'react'
-import { AppBar, Toolbar, IconButton, 
-    Typography } from '@material-ui/core'
+import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core'
+import cookie from 'cookie'
 import MenuIcon from '@material-ui/icons/Menu'
 import { Link } from 'react-router-dom'
 
+const cookies = cookie.parse(document.cookie)
 const Navigation = () => {
+
     return (
         <AppBar position="relative">
             <Toolbar>
@@ -12,20 +14,22 @@ const Navigation = () => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" style={{ flexGrow: "1" }}>
-                    FakeCars.com
+                    Austin Small Businesses
                 </Typography>
                 <ul className="nav-list">
                     <li className="nav-list-item">
-                        <Link to="/">Home</Link>
+                        <Link to="/">Listings</Link>
                     </li>
+                    {
+                    cookies["loggedIn"] ?  
                     <li className="nav-list-item">
-                        <Link to="/about">About</Link>
+                        <Link to="/addlisting">Add Listing</Link>
                     </li>
+                    : null
+                    }
+
                     <li className="nav-list-item">
-                        <Link to="/dashboard">Dashboard</Link>
-                    </li>
-                    <li className="nav-list-item">
-                        <Link to="/import">Import</Link>
+                        <Link to="/login">Login</Link>
                     </li>
                 </ul>
             </Toolbar>
