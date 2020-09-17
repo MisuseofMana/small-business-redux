@@ -1,10 +1,9 @@
 import React from 'react'
-import { Container, Paper, Chip } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 const Listing = (props) => {
     const id = props.match.params.id
-    {/* Change cars to props.cars and remove the cars.json import above */}
-    const listing = props.listings[0]
+    const listing = props.listings[id]
 
     return (
         <Container maxWidth="sm">
