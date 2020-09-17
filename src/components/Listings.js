@@ -1,4 +1,5 @@
 import React from 'react'
+import cookie from 'cookie'
 import { Link } from 'react-router-dom'
 import {
     Container,
@@ -8,36 +9,58 @@ import {
     TableHead,
     TableRow
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete'
- 
+
+const cookies = cookie.parse(document.cookie)
+
+const useStyles = makeStyles({
+  bold: {
+    fontWeight: '600',
+  },
+  underline: {
+    fontWeight: '800',
+    textDecoration: 'underline'
+  }
+});
+
 const Listings = (props) => {
+
+const classes = useStyles();
+
     return (
         <Container maxWidth="lg" className="car-container">
-            <h4>Welcome, {props.user.username}</h4>
             <div className="flex-container">
             </div>
             <Table>
                 <TableHead>
-                    <TableRow>
+                    <TableRow className={classes.bold}>
                         <TableCell>Name</TableCell>
                         <TableCell>Description</TableCell>
                         <TableCell>Hours</TableCell>
                         <TableCell>Address</TableCell>
-                        <TableCell>Delete</TableCell>
+                        {
+                        cookies["loggedIn"] ?  
+                            <TableCell>Delete</TableCell>
+                        : null
+                        }
                     </TableRow>
                 </TableHead>
                 <TableBody>
                 {props.listings.map((item, idx) => (
                     <TableRow key={item + idx}>
-                        <TableCell component="th" scope="row"><Link to={`/listing/${idx}`}>{item.name}</Link></TableCell>
+                        <TableCell className={classes.underline} component="th" scope="row"><Link to={`/listing/${idx}`}>{item.name}</Link></TableCell>
                         <TableCell>{item.description}</TableCell>
                         <TableCell>{item.hours}</TableCell>
                         <TableCell>{item.address}</TableCell>
                         <TableCell>
-                            <DeleteIcon
-                                // add onClick method here
-                                onClick={() => props.removeCar(idx)}
+                        {
+                        cookies["loggedIn"] ?  
+                             <DeleteIcon
+                                onClick={() => props.removeListing(idx)}
                                 className="icon text-red" />
+                        : null
+                        }
                         </TableCell>
                     </TableRow>
                 ))}
