@@ -7,13 +7,9 @@ import {
     DialogTitle
 } from '@material-ui/core'
 
-class AddCar extends Component {
+class AddListing extends Component {
     state = {
         open: false,
-        name: '',
-        mpg: '',
-        cylinders: '',
-        horsepower: '',
     }
 
     toggleDialog = () => this.setState({ open: !this.state.open })
@@ -29,10 +25,8 @@ class AddCar extends Component {
         const payload = { ...this.state }
         payload.id = this.props.carTotal + 1
         delete payload.open
-        console.log("THE CAR", payload)
-        // add this.props.addCar function here
-        // also add this.setState to close the dialog
-        this.props.addCar(payload)
+        console.log(this.props)
+        this.props.addListing(payload)
         this.setState({ open: false })
     }
 
@@ -40,9 +34,9 @@ class AddCar extends Component {
         if (prevState.open !== this.state.open) {
             this.setState({
                 name: '',
-                mpg: '',
-                cylinders: '',
-                horsepower: ''
+                address: '',
+                hours: '',
+                description: '',
             })
         }
     }
@@ -51,18 +45,18 @@ class AddCar extends Component {
         return (
             <Fragment>
                 <div style={{ textAlign: 'center' }}>
-                    <h1>Add Car:</h1>
+                    <h1>Add A Business:</h1>
                     <Button
                         variant="contained"
                         className="add-car"
                         onClick={this.toggleDialog}
                     >
-                        Add Car
+                        Click To Add
                     </Button>
                 </div>
                 <div>
                     <Dialog open={this.state.open} onClose={this.toggleDialog} >
-                        <DialogTitle>Add New Car</DialogTitle>
+                        <DialogTitle>Add Business</DialogTitle>
                         <DialogContent>
                             <form 
                                 onSubmit={this.handleSubmit}
@@ -74,21 +68,21 @@ class AddCar extends Component {
                                     onChange={this.handleTextChange} 
                                     required />
                                 <TextField 
-                                    id="mpg" 
-                                    placeholder="Miles per gallon" 
-                                    value={this.state.mpg} 
+                                    id="address" 
+                                    placeholder="Address" 
+                                    value={this.state.address} 
                                     onChange={this.handleTextChange} 
                                     required />
                                 <TextField 
-                                    id="cylinders" 
-                                    placeholder="Cylinders" 
-                                    value={this.state.cylinders} 
+                                    id="hours" 
+                                    placeholder="Hours" 
+                                    value={this.state.hours} 
                                     onChange={this.handleTextChange} 
                                     required />
                                 <TextField 
-                                    id="horsepower" 
-                                    placeholder="Horsepower" 
-                                    value={this.state.horsepower} 
+                                    id="description" 
+                                    placeholder="Description" 
+                                    value={this.state.description} 
                                     onChange={this.handleTextChange} 
                                     required />
                                 <br />
@@ -102,4 +96,4 @@ class AddCar extends Component {
     }
 }
 
-export default AddCar
+export default AddListing

@@ -1,33 +1,65 @@
-import React from 'react'
-import { AppBar, Toolbar, IconButton, 
-    Typography } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import React, { Component } from 'react'
+import { AppBar, Toolbar, Container, Typography } from '@material-ui/core'
+import cookie from 'cookie'
 import { Link } from 'react-router-dom'
 
-const Navigation = () => {
+const cookies = cookie.parse(document.cookie)
+
+class Navigation extends Component {
+
+logout = () => {
+console.log(`logging out`)
+document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+render() {
     return (
+    <Container>
         <AppBar position="relative">
             <Toolbar>
-                <IconButton color="inherit">
-                    <MenuIcon />
-                </IconButton>
                 <Typography variant="h6" style={{ flexGrow: "1" }}>
-                    FakeCars.com
+                    Austin Small Businesses
                 </Typography>
                 <ul className="nav-list">
                     <li className="nav-list-item">
-                        <Link to="/">Home</Link>
+                        <Link to="/">Listings</Link>
                     </li>
+                    {
+                    cookies["loggedIn"] ?  
                     <li className="nav-list-item">
-                        <Link to="/about">About</Link>
+                        <Link to="/addlisting">Add Listing</Link>
                     </li>
+                    : null
+                    }
                     <li className="nav-list-item">
-                        <Link to="/dashboard">Dasboard</Link>
+                        {
+                            cookies["loggedIn"] ?  
+                            <Link onClick={() => {
+                            document.cookie = "loggedIn="
+                            window.location.replace("/loginScreen")
+                            }}>
+                            Logout 
+                            </Link>
+                            : 
+                            <Link to="/loginScreen">
+                            Login 
+                            </Link>
+                        }
                     </li>
                 </ul>
             </Toolbar>
         </AppBar>
+            <Container>
+            {
+                cookies["loggedIn"] ?  
+                    <h4>Welcome, {cookies['Username']}</h4>
+                : null
+            }
+            </Container>
+    </Container>
     )
+    }
 }
 
 export default Navigation
