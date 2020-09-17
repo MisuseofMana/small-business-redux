@@ -3,8 +3,8 @@ import { Switch, Route, Redirect } from 'react-router'
 import cookie from 'cookie'
 import Listing from './containers/Listing'
 import Listings from './containers/Listings'
-import Login from './components/Login'
-import AddListing from './components/AddListing'
+import LoginScreen from './components/LoginScreen'
+import AddListing from './containers/AddListing'
 
 const checkAuth = () => {
     const cookies = cookie.parse(document.cookie)
@@ -27,7 +27,7 @@ const Router = () => {
         <Switch>
             <Route exact path="/" component={Listings} />
             <Route path="/listing/:id" component={Listing}/>
-            <Route path="/login" component={Login} />
+            <Route path="/loginscreen" component={LoginScreen} />
             <ProtectedRoute path="/addListing" component={AddListing} />
         </Switch>
     );
