@@ -1,18 +1,23 @@
-import React from 'react'
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core'
+import React, { Component } from 'react'
+import { AppBar, Toolbar, Container, Typography } from '@material-ui/core'
 import cookie from 'cookie'
-import MenuIcon from '@material-ui/icons/Menu'
 import { Link } from 'react-router-dom'
 
 const cookies = cookie.parse(document.cookie)
-const Navigation = () => {
 
+class Navigation extends Component {
+
+logout = () => {
+console.log(`logging out`)
+document.cookie = "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+render() {
     return (
+    <Container>
         <AppBar position="relative">
             <Toolbar>
-                <IconButton color="inherit">
-                    <MenuIcon />
-                </IconButton>
                 <Typography variant="h6" style={{ flexGrow: "1" }}>
                     Austin Small Businesses
                 </Typography>
@@ -27,14 +32,34 @@ const Navigation = () => {
                     </li>
                     : null
                     }
-
                     <li className="nav-list-item">
-                        <Link to="/login">Login</Link>
+                        {
+                            cookies["loggedIn"] ?  
+                            <Link onClick={() => {
+                            document.cookie = "loggedIn="
+                            window.location.replace("/loginScreen")
+                            }}>
+                            Logout 
+                            </Link>
+                            : 
+                            <Link to="/loginScreen">
+                            Login 
+                            </Link>
+                        }
                     </li>
                 </ul>
             </Toolbar>
         </AppBar>
+            <Container>
+            {
+                cookies["loggedIn"] ?  
+                    <h4>Welcome, {cookies['Username']}</h4>
+                : null
+            }
+            </Container>
+    </Container>
     )
+    }
 }
 
 export default Navigation
